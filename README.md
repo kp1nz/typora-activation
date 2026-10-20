@@ -209,5 +209,6 @@ DNS 缓存命中      : 无（sentry / pinpoint / amazonaws / cognito / typora.i
 
 ## 8. 许可证
 
-原创脚本和文档使用 MIT 许可证，见 LICENSE。提取的 Typora 第三方源码不在 MIT 授权范围内，详见 NOTICE。机器相关的 license/ 记录和 evidence/ 截图仅保留在本地，不提交到仓库。
+原创脚本和文档使用 MIT 许可证，见 LICENSE.md。提取的 Typora 第三方源码不在 MIT 授权范围内，详见 NOTICE。机器相关的 license/ 记录和 evidence/ 截图仅保留在本地，不提交到仓库。
+
 
