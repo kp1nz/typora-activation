@@ -10,6 +10,19 @@
 
 ---
 
+## 版本支持
+
+| Typora 版本 | 授权模型 | 方案 | 入口 |
+|---|---|---|---|
+| 1.2.4 | 明文 `SLicense`，只比对指纹 | 注册表离线激活，纯 PowerShell | `activate.cmd` / `activate.ps1` |
+| 1.12.3 | RSA 加密载荷 + `publicDecrypt` | 重建 `app.asar` 注入授权 shim | [`v1.12.3/`](v1.12.3/README.md) |
+
+**1.12.3 起不能用根目录这套了**：`SLicense` 变成 `base64(RSA 密文)`，主进程用内置公钥解密后校验，
+私钥在服务器侧，离线伪造走不通；而且试用到期后启动约 1.4 秒就会 `app.quit()` 自杀。
+差异细节、shim 原理、部署与回滚见 [v1.12.3/README.md](v1.12.3/README.md)。
+
+---
+
 ## 目录结构
 
 ```
@@ -18,6 +31,12 @@ C:\workbench\typora-1.2.4-activation\
 ├─ activate.ps1          一键激活本体（纯 PowerShell，免依赖）
 ├─ deactivate.ps1        撤销激活 / 恢复遥测
 ├─ README.md             本文件
+├─ v1.12.3\              Typora 1.12.3 专用方案（asar 注入 + 授权 shim）
+│   ├─ shim.js           注入主进程的授权 shim
+│   ├─ build-asar.js     重建 app.asar（插 shim require + 重算 SHA-256）
+│   ├─ deploy.ps1        备份 + 部署（自动提权）
+│   ├─ restore.ps1       还原
+│   └─ README.md         版本差异、原理、用法、验证
 ├─ license\              每次激活的记录 + 历史 SLicense
 ├─ source\
 │   └─ atom_src.js       从内存 dump 出来的加密 atom.js 明文（350 KB / 6862 行）
